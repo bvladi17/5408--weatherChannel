@@ -1,0 +1,19 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Ambiente local
+.env
+
+# IDEs e editores
+.idea/
+.vscode/
+
+# Sistema de build
+dist/
+build/
+
+# Arquivos temporários
+.DS_Store
