@@ -4,13 +4,13 @@ const path = require('path');
 const app = express();
 const PORT = 3000;
 
-// Servir ficheiros estáticos da pasta "public"
+// 
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Endpoint para obter o tempo via API
+// 
 app.get('/api/weather', async (req, res) => {
-    const city = req.query.city || 'Lisbon'; // Cidade padrão
-    const API_KEY = 'YOUR API KEY'; // Substitui pela tua chave da Weather API
+    const city = req.query.city || 'Lisbon'; 
+    const API_KEY = 'YOURAPIKEY'; // 
     const API_URL = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${city}&days=4`;
 
     try {
