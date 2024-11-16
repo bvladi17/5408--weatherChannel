@@ -10,10 +10,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 // 
 app.get('/api/weather', async (req, res) => {
     const city = req.query.city || 'Lisbon'; 
-    const API_KEY = 'YOURAPIKEY'; // 
-    const API_URL = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${city}&days=4`;
-
+    const API_KEY = 'b65b8941781a45609fd202458241511'; // 
+    const API_URL = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${city}&days=3`;
     try {
+        console.log("cidade",  city);
         const response = await axios.get(API_URL);
         res.json({
             city: response.data.location.name,
