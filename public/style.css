@@ -1,0 +1,50 @@
+.weather-banner {
+    height: 200px !important;
+    width: 50%; /* Altura do banner */
+    background-size: cover !important;
+    background-position: center !important;
+    margin-bottom: 1rem !important;
+    border-radius: 0.5rem !important;
+    margin: 0 auto;
+}
+
+.bg-sunny-day {
+    background-image: url('./imgs/Sol.jpg') !important; /* Imagem para clima ensolarado */
+}
+
+.bg-cloudy-day {
+    background-image: url('./imgs/Ceuincoberto-dia.jpeg') !important; /* Imagem para clima nublado */
+}
+
+.bg-rainy-day {
+    background-image: url('imgs/chuva-dia.jpg') !important; /* Imagem para chuva */
+}
+
+.bg-thunderstorm-day {
+    background-image: url('imgs/trovoada-dia.jpeg') !important; /* Imagem para tempestade */
+}
+
+.bg-snowy-day {
+    background-image: url('imgs/neve.jpg') !important; /* Imagem para neve */
+}
+
+/* Noite */
+.bg-clear-night {
+    background-image: url('./imgs/ceulimpo-noite.jpeg') !important;
+}
+
+.bg-cloudy-night {
+    background-image: url('./imgs/Ceuincoberto-noite.jpeg') !important;
+}
+
+.bg-rainy-night {
+    background-image: url('imgs/chuva-noite.jpg') !important;
+}
+
+.bg-thunderstorm-night {
+    background-image: url('imgs/trovooada.jpg') !important;
+}
+
+.bg-snowy-night {
+    background-image: url('imgs/neve-noite.webp') !important;
+}
