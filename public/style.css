@@ -33,44 +33,53 @@ body {
 }
 
 .bg-sunny-day {
-    background-image: url('./imgs/Sol.jpg') !important; /* Imagem para clima ensolarado */
+    background-image: url('./imgs/ceu-limpo-dia.jpg') !important; /* Imagem para clima ensolarado */
 }
 
 .bg-cloudy-day {
-    background-image: url('./imgs/Ceuincoberto-dia.jpeg') !important; /* Imagem para clima nublado */
+    background-image: url('./imgs/ceu-coberto-dia.jpeg') !important; /* Imagem para clima nublado */
 }
 
 .bg-rainy-day {
-    background-image: url('imgs/chuva-dia.jpg') !important; /* Imagem para chuva */
+    background-image: url('./imgs/chuva-dia.jpg') !important; /* Imagem para chuva */
 }
 
 .bg-thunderstorm-day {
-    background-image: url('imgs/trovoada-dia.jpeg') !important; /* Imagem para tempestade */
+    background-image: url('./imgs/trovoada-dia.jpeg') !important; /* Imagem para tempestade */
 }
 
 .bg-snowy-day {
-    background-image: url('imgs/neve.jpg') !important; /* Imagem para neve */
+    background-image: url('./imgs/neve-dia.jpg') !important; /* Imagem para neve */
 }
+
+.bg-foggy-day {
+    background-image: url('./imgs/nevoeiro-dia.jpg') !important;  /* Nova imagem */
+}
+
 
 /* Noite */
 .bg-clear-night {
-    background-image: url('./imgs/ceulimpo-noite.jpeg') !important;
+    background-image: url('./imgs/ceu-limpo-noite.jpeg') !important;
 }
 
 .bg-cloudy-night {
-    background-image: url('./imgs/Ceuincoberto-noite.jpeg') !important;
+    background-image: url('./imgs/ceu-coberto-noite.jpeg') !important;
 }
 
 .bg-rainy-night {
-    background-image: url('imgs/chuva-noite.jpg') !important;
+    background-image: url('./imgs/chuva-noite.jpg') !important;
 }
 
 .bg-thunderstorm-night {
-    background-image: url('imgs/trovooada.jpg') !important;
+    background-image: url('./imgs/trovoada-noite.jpg') !important;  /* Corrigido nome */
 }
 
 .bg-snowy-night {
-    background-image: url('imgs/neve-noite.webp') !important;
+    background-image: url('./imgs/neve-noite.webp') !important;
+}
+
+.bg-foggy-night {
+    background-image: url('./imgs/nevoeiro-noite.jpeg') !important;  /* Nova imagem */
 }
 
 /* Efeito 3D e melhorias na navbar */
