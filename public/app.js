@@ -66,13 +66,52 @@ function refetchLastSearch() {
 // Atualizar o idioma ao alterar na navbar
 document.getElementById('language-selector').addEventListener('change', refetchLastSearch);
 
+// Adicionar esta função auxiliar
+function formatForecastDate(dateStr, index, language) {
+    // Formatar a data apenas se for português
+    const [year, month, day] = dateStr.split('-');
+    const formattedDate = language === 'pt' 
+        ? `${day}/${month}/${year}`  // Formato português: dd/mm/yyyy
+        : dateStr;                   // Mantém formato original: yyyy-mm-dd
+    
+    // Definir o texto do dia baseado no idioma e índice
+    let dayText = '';
+    if (language === 'pt') {
+        switch(index) {
+            case 0:
+                dayText = 'Amanhã';
+                break;
+            case 1:
+                dayText = 'Depois de amanhã';
+                break;
+            case 2:
+                dayText = 'Daqui a três dias';
+                break;
+        }
+    } else {
+        switch(index) {
+            case 0:
+                dayText = 'Tomorrow';
+                break;
+            case 1:
+                dayText = 'The day after tomorrow';
+                break;
+            case 2:
+                dayText = 'In three days';
+                break;
+        }
+    }
+    
+    return `${dayText} - ${formattedDate}`;
+}
+
 // Função para atualizar o card com os dados meteorológicos
 function updateWeatherCard(data) {
     document.getElementById('weather-card').style.display = 'block';
     document.getElementById('weather-city').textContent = data.city;
     document.getElementById('weather-country').textContent = data.country;
     document.getElementById('current-temp').innerHTML = `
-        <i class="fas fa-thermometer-half"></i> Temperatura atual: ${data.current.temp_c}°C
+        <i class="fas fa-thermometer-half"></i> ${data.current.temp_c}°C
     `;
     document.getElementById('weather-condition').innerHTML = `
         <img src="https:${data.current.condition.icon}" alt="${data.current.condition.text}" class="me-2">
@@ -81,19 +120,19 @@ function updateWeatherCard(data) {
 
     const forecastList = document.getElementById('forecast-list');
     forecastList.innerHTML = ''; // Limpar previsões anteriores
+    const language = getSelectedLanguage();
 
-    data.forecast.forEach(day => {
+    data.forecast.forEach((day, index) => {
         const listItem = document.createElement('li');
         listItem.className = 'list-group-item';
         listItem.innerHTML = `
-            <i class="fas fa-calendar-day"></i> ${day.date}:
+            ${formatForecastDate(day.date, index, language)}
             <img src="https:${day.day.condition.icon}" alt="${day.day.condition.text}" class="me-2">
             ${day.day.avgtemp_c}°C - ${day.day.condition.text}
         `;
         forecastList.appendChild(listItem);
     });
 
-    const language = getSelectedLanguage();
     setWeatherBackgroundNavBar(data.current.condition.text, data.current.is_day, language);
 }
 
