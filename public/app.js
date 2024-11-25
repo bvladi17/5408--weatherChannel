@@ -189,16 +189,20 @@ function updateWeatherCard(data) {
     const language = getSelectedLanguage();
 
     data.forecast.forEach((day, index) => {
-        const listItem = document.createElement('li');
-        listItem.className = 'list-group-item';
-        listItem.innerHTML = `
-            ${formatForecastDate(day.date, index, language)}
-            <img src="https:${day.day.condition.icon}" alt="${
-            day.day.condition.text
-        }" class="me-2">
-            ${day.day.avgtemp_c}°C - ${day.day.condition.text}
+        // Cria a coluna
+        const column = document.createElement('div');
+        column.className = 'col text-center';
+    
+        // Define o conteúdo da coluna
+        column.innerHTML = `
+            <h6 class="text-muted">${formatForecastDate(day.date, index, language)}</h6>
+            <img src="https:${day.day.condition.icon}" alt="${day.day.condition.text}" class="mb-2">
+            <p>${day.day.avgtemp_c}°C</p>
+            <p>${day.day.condition.text}</p>
         `;
-        forecastList.appendChild(listItem);
+    
+        // Adiciona a coluna à row
+        forecastList.appendChild(column);
     });
 
     setWeatherBackgroundNavBar(
