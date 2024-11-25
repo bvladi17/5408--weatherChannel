@@ -1,6 +1,15 @@
-// Função para obter o tempo com base na geolocalização
-function fetchWeatherByLocation(lat, lon) {
-    fetch(`/api/weather?lat=${lat}&lon=${lon}`)
+let lastSearch = { type: 'geo', params: {} }; // Guarda o último tipo de pesquisa e parâmetros
+
+// Obter idioma selecionado na navbar
+function getSelectedLanguage() {
+    return document.querySelector('#language-selector').value;
+}
+
+// Função para obter o tempo por localização
+function fetchWeatherByLocation(latitude, longitude) {
+    const selectedLanguage = getSelectedLanguage();
+    lastSearch = { type: 'location', params: { latitude, longitude } }; // Guardar a pesquisa atual
+    fetch(`/api/weather?lat=${latitude}&lon=${longitude}&lang=${selectedLanguage}`)
         .then(response => response.json())
         .then(data => updateWeatherCard(data))
         .catch(err => console.error('Erro ao buscar tempo:', err));
@@ -8,30 +17,70 @@ function fetchWeatherByLocation(lat, lon) {
 
 // Função para obter o tempo por nome da cidade
 function fetchWeatherByCity(city) {
-    fetch(`/api/weather?city=${city}`)
+    const selectedLanguage = getSelectedLanguage();
+    lastSearch = { type: 'city', params: { city } }; // Guardar a pesquisa atual
+    fetch(`/api/weather?city=${city}&lang=${selectedLanguage}`)
         .then(response => response.json())
         .then(data => updateWeatherCard(data))
         .catch(err => console.error('Erro ao buscar tempo:', err));
 }
 
-// Atualizar do card com dados meteorológicos
-function updateWeatherCard(data) {
+// Função para repetir a última pesquisa com o idioma atualizado
+function refetchLastSearch() {
+    const selectedLanguage = getSelectedLanguage();
+    switch (lastSearch.type) {
+        case 'location':
+            const { latitude, longitude } = lastSearch.params;
+            fetch(`/api/weather?lat=${latitude}&lon=${longitude}&lang=${selectedLanguage}`)
+                .then(response => response.json())
+                .then(data => updateWeatherCard(data))
+                .catch(err => console.error('Erro ao refazer busca:', err));
+            break;
 
+        case 'city':
+            const { city } = lastSearch.params;
+            fetch(`/api/weather?city=${city}&lang=${selectedLanguage}`)
+                .then(response => response.json())
+                .then(data => updateWeatherCard(data))
+                .catch(err => console.error('Erro ao refazer busca:', err));
+            break;
+
+        case 'geo':
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const { latitude, longitude } = position.coords;
+                    fetchWeatherByLocation(latitude, longitude);
+                },
+                (error) => {
+                    console.error('Erro ao obter geolocalização:', error);
+                    fetchWeatherByCity('Lisboa'); // Localização padrão
+                }
+            );
+            break;
+
+        default:
+            console.error('Nenhuma pesquisa anterior encontrada.');
+    }
+}
+
+// Atualizar o idioma ao alterar na navbar
+document.getElementById('language-selector').addEventListener('change', refetchLastSearch);
+
+// Função para atualizar o card com os dados meteorológicos
+function updateWeatherCard(data) {
     document.getElementById('weather-card').style.display = 'block';
     document.getElementById('weather-city').textContent = data.city;
     document.getElementById('weather-country').textContent = data.country;
     document.getElementById('current-temp').innerHTML = `
-    <i class="fas fa-thermometer-half"></i> Temperatura atual: ${data.current.temp_c}°C
+        <i class="fas fa-thermometer-half"></i> Temperatura atual: ${data.current.temp_c}°C
     `;
     document.getElementById('weather-condition').innerHTML = `
-    <img src="https:${data.current.condition.icon}" alt="${data.current.condition.text}" class="me-2">
-    ${data.current.condition.text}
+        <img src="https:${data.current.condition.icon}" alt="${data.current.condition.text}" class="me-2">
+        ${data.current.condition.text}
     `;
-    
+
     const forecastList = document.getElementById('forecast-list');
     forecastList.innerHTML = ''; // Limpar previsões anteriores
-    
-    //setWeatherBackgroundNavBar(data.current.condition.text.toLowerCase(), data.current.is_day);
 
     data.forecast.forEach(day => {
         const listItem = document.createElement('li');
@@ -44,10 +93,11 @@ function updateWeatherCard(data) {
         forecastList.appendChild(listItem);
     });
 
-    setWeatherBackgroundNavBar(data.current.condition.text.toLowerCase(), data.current.is_day);
+    const language = getSelectedLanguage();
+    setWeatherBackgroundNavBar(data.current.condition.text, data.current.is_day, language);
 }
 
-// Obter localização inicial
+// Obter localização inicial (default geolocalização ao carregar a página)
 navigator.geolocation.getCurrentPosition(
     (position) => {
         const { latitude, longitude } = position.coords;
@@ -56,6 +106,7 @@ navigator.geolocation.getCurrentPosition(
     (error) => {
         console.error('Erro ao obter geolocalização:', error);
         fetchWeatherByCity('Lisboa'); // Localização padrão
+        lastSearch = { type: 'city', params: { city: 'Lisboa' } }; // Guardar como padrão
     }
 );
 
@@ -68,41 +119,68 @@ document.getElementById('city-form').addEventListener('submit', (event) => {
     }
 });
 
-function setWeatherBackgroundNavBar(conditionText, isDay) {
+// Função para definir o background da navbar com base na condição climática
+function setWeatherBackgroundNavBar(conditionText, isDay, language) {
+    const banner = document.getElementById('weather-banner');
     
-    const banner = document.getElementById('weather-banner'); // Seleciona o banner
-
-    // Resetar classes padrões
+    // Resetar classes
     banner.className = 'weather-banner';
 
-    // Atualizar navbar e banner com base na condição climática
-    if (isDay) {
-        if (conditionText.includes('sunny') || conditionText.includes('clear')) {
-            banner.classList.add('bg-sunny-day');
-        } else if (conditionText.includes('cloudy') || conditionText.includes('overcast')) {
-            banner.classList.add('bg-cloudy-day');
-        } else if (conditionText.includes('rain') || conditionText.includes('shower') || conditionText.includes('drizzle')) {
-            banner.classList.add('bg-rainy-day');
-        } else if (conditionText.includes('thunder')) {
-            banner.classList.add('bg-thunderstorm-day');
-        } else if (conditionText.includes('snow')) {
-            banner.classList.add('bg-snowy-day');
-        } else if (conditionText.includes('fog') || conditionText.includes('mist') || conditionText.includes('haze')) {
-            banner.classList.add('bg-foggy-day');
+    // Arrays com as condições climáticas em ambos os idiomas
+    const conditions = {
+        sunny: {
+            en: ['sunny', 'clear'],
+            pt: ['sol', 'céu limpo', 'ensolarado']
+        },
+        cloudy: {
+            en: ['partly cloudy', 'cloudy', 'overcast'],
+            pt: ['parcialmente nublado', 'nublado', 'encoberto', 'predominantemente nublado']
+        },
+        rainy: {
+            en: ['patchy rain possible', 'light rain', 'moderate rain', 'heavy rain', 'showers', 'light rain shower', 'moderate or heavy rain shower'],
+            pt: ['possibilidade de chuva irregular', 'chuva fraca', 'chuva moderada', 'chuva forte', 
+                'aguaceiros', 'chuvisco', 'chuviscos', 'períodos de chuva', 'possibilidade de chuva',
+                'chuva irregular', 'pancadas de chuva']
+        },
+        thunderstorm: {
+            en: ['thundery outbreaks possible', 'patchy light rain with thunder', 'moderate or heavy rain with thunder', 'thunder'],
+            pt: ['possibilidade de trovoada', 'chuva fraca com trovoada', 'chuva moderada ou forte com trovoada',
+                'trovoada', 'tempestade', 'tempestade com raios', 'possibilidade de tempestade']
+        },
+        snowy: {
+            en: ['patchy snow possible', 'light snow', 'moderate snow', 'heavy snow', 'blizzard'],
+            pt: ['possibilidade de neve irregular', 'neve fraca', 'neve moderada', 'neve forte', 'nevasca',
+                'possibilidade de neve', 'nevando']
+        },
+        foggy: {
+            en: ['mist', 'fog', 'freezing fog'],
+            pt: ['neblina', 'nevoeiro', 'nevoeiro congelante', 'névoa']
         }
-    } else {
-        if (conditionText.includes('clear')) {
-            banner.classList.add('bg-clear-night');
-        } else if (conditionText.includes('cloudy') || conditionText.includes('overcast')) {
-            banner.classList.add('bg-cloudy-night');
-        } else if (conditionText.includes('rain') || conditionText.includes('shower') || conditionText.includes('drizzle')) {;
-            banner.classList.add('bg-rainy-night');
-        } else if (conditionText.includes('thunder')) {
-            banner.classList.add('bg-thunderstorm-night');
-        } else if (conditionText.includes('snow')) {
-            banner.classList.add('bg-snowy-night');
-        } else if (conditionText.includes('fog') || conditionText.includes('mist') || conditionText.includes('haze')) {
-            banner.classList.add('bg-foggy-night');
-        }
+    };
+
+    // Converter condição para minúsculas para comparação
+    const condition = conditionText.toLowerCase();
+
+    // Verificar cada tipo de condição
+    if (conditions.sunny[language]?.some(text => condition.includes(text.toLowerCase()))) {
+        banner.classList.add(isDay ? 'bg-sunny-day' : 'bg-clear-night');
+    }
+    else if (conditions.cloudy[language]?.some(text => condition.includes(text.toLowerCase()))) {
+        banner.classList.add(isDay ? 'bg-cloudy-day' : 'bg-cloudy-night');
+    }
+    else if (conditions.rainy[language]?.some(text => condition.includes(text.toLowerCase()))) {
+        banner.classList.add(isDay ? 'bg-rainy-day' : 'bg-rainy-night');
+    }
+    else if (conditions.thunderstorm[language]?.some(text => condition.includes(text.toLowerCase()))) {
+        banner.classList.add(isDay ? 'bg-thunderstorm-day' : 'bg-thunderstorm-night');
+    }
+    else if (conditions.snowy[language]?.some(text => condition.includes(text.toLowerCase()))) {
+        banner.classList.add(isDay ? 'bg-snowy-day' : 'bg-snowy-night');
+    }
+    else if (conditions.foggy[language]?.some(text => condition.includes(text.toLowerCase()))) {
+        banner.classList.add(isDay ? 'bg-foggy-day' : 'bg-foggy-night');
+    }
+    else {
+        banner.classList.add('bg-default');
     }
 }

@@ -1,11 +1,16 @@
 .weather-banner {
     height: 200px !important;
-    width: 50%; /* Altura do banner */
+    width: 100%; /* Altura do banner */
+    max-width: 800px; /* Largura máxima do banner */
     background-size: cover !important;
     background-position: center !important;
     margin-bottom: 1rem !important;
     border-radius: 0.5rem !important;
     margin: 0 auto;
+}
+
+.card-footer {
+    background-color: #ffffff !important;
 }
 
 .bg-sunny-day {
