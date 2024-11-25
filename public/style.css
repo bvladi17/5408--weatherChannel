@@ -4,58 +4,42 @@ body {
     min-height: 100vh;
     margin: 0;
     background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)),
-                url('./imgs/background.jpg') !important;  /* Substitua pelo caminho da sua imagem */
+        url('./imgs/background.jpg') !important;
     background-size: cover !important;
     background-position: center !important;
-    background-attachment: fixed !important;  /* Mantém o background fixo durante scroll */
+    background-attachment: fixed !important;
 }
 
-.page-container { 
+.page-container {
     display: flex;
     min-height: 100vh;
     flex-direction: column;
     justify-content: space-between;
 }
 
-.weather-banner {
-    height: 200px !important;
-    width: 100%; /* Altura do banner */
-    max-width: 800px; /* Largura máxima do banner */
-    background-size: cover !important;
-    background-position: center !important;
-    margin-bottom: 1rem !important;
-    border-radius: 0.5rem !important;
-    margin: 0 auto;
-}
-
-.card-footer {
-    background-color: #ffffff !important;
-}
-
 .bg-sunny-day {
-    background-image: url('./imgs/ceu-limpo-dia.jpg') !important; /* Imagem para clima ensolarado */
+    background-image: url('./imgs/ceu-limpo-dia.jpg') !important;
 }
 
 .bg-cloudy-day {
-    background-image: url('./imgs/ceu-coberto-dia.jpeg') !important; /* Imagem para clima nublado */
+    background-image: url('./imgs/ceu-coberto-dia.jpeg') !important;
 }
 
 .bg-rainy-day {
-    background-image: url('./imgs/chuva-dia.jpg') !important; /* Imagem para chuva */
+    background-image: url('./imgs/chuva-dia.jpg') !important;
 }
 
 .bg-thunderstorm-day {
-    background-image: url('./imgs/trovoada-dia.jpeg') !important; /* Imagem para tempestade */
+    background-image: url('./imgs/trovoada-dia.jpeg') !important;
 }
 
 .bg-snowy-day {
-    background-image: url('./imgs/neve-dia.jpg') !important; /* Imagem para neve */
+    background-image: url('./imgs/neve-dia.jpg') !important;
 }
 
 .bg-foggy-day {
-    background-image: url('./imgs/nevoeiro-dia.jpg') !important;  /* Nova imagem */
+    background-image: url('./imgs/nevoeiro-dia.jpg') !important;
 }
-
 
 /* Noite */
 .bg-clear-night {
@@ -71,7 +55,7 @@ body {
 }
 
 .bg-thunderstorm-night {
-    background-image: url('./imgs/trovoada-noite.jpg') !important;  /* Corrigido nome */
+    background-image: url('./imgs/trovoada-noite.jpg') !important;
 }
 
 .bg-snowy-night {
@@ -79,12 +63,11 @@ body {
 }
 
 .bg-foggy-night {
-    background-image: url('./imgs/nevoeiro-noite.jpeg') !important;  /* Nova imagem */
+    background-image: url('./imgs/nevoeiro-noite.jpeg') !important;
 }
 
-/* Efeito 3D e melhorias na navbar */
 .navbar {
-    background: rgba(13, 110, 253, 1) !important;  /* Mais transparente */
+    background: rgba(13, 110, 253, 1) !important;
     backdrop-filter: blur(10px) !important;
     -webkit-backdrop-filter: blur(10px) !important;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
@@ -93,7 +76,6 @@ body {
     z-index: 1000 !important;
 }
 
-/* Melhorar o input de pesquisa */
 #city-input {
     border-radius: 20px 0 0 20px !important;
     border: none !important;
@@ -111,7 +93,6 @@ body {
     cursor: pointer;
 }
 
-/* Melhorar o select de idioma */
 #language-selector {
     border-radius: 20px !important;
     border: none !important;
@@ -123,25 +104,6 @@ body {
     cursor: pointer;
 }
 
-/* Efeito 3D e melhorias no card */
-#weather-card {
-    background: rgba(255, 255, 255, 0.6) !important;  /* Mais transparente */
-    backdrop-filter: blur(10px) !important;
-    -webkit-backdrop-filter: blur(10px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
-    border-radius: 20px !important;
-    overflow: hidden !important;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12) !important;
-}
-
-.card-header {
-    background: rgba(13, 110, 253, 0.7) !important;  /* Mais transparente */
-    backdrop-filter: blur(10px) !important;
-    -webkit-backdrop-filter: blur(10px) !important;
-    border-radius: 20px 20px 0 0 !important;
-}
-
-/* Melhorar o banner do tempo */
 .weather-banner {
     height: 200px !important;
     width: 100% !important;
@@ -154,10 +116,30 @@ body {
     transition: all 0.3s ease !important;
 }
 
-/* Melhorar a lista de previsão */
+.card-header {
+    background: rgba(13, 110, 253, 0.7) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border-radius: 20px 20px 0 0 !important;
+}
+
+.card-footer {
+    background-color: #ffffff !important;
+}
+
+#weather-card {
+    background: rgba(255, 255, 255, 0.6) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 20px !important;
+    overflow: hidden !important;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12) !important;
+}
+
 .list-group-item {
     color: rgba(0, 0, 0, 0.7) !important;
-    background: rgba(255, 255, 255, 0.1) !important;  /* Mais transparente */
+    background: rgba(255, 255, 255, 0.1) !important;
     backdrop-filter: blur(5px) !important;
     -webkit-backdrop-filter: blur(5px) !important;
     border: none !important;
@@ -166,7 +148,6 @@ body {
     transition: all 0.3s ease !important;
 }
 
-/* Melhorar os ícones */
 .fas {
     margin-right: 0.5rem !important;
 }
@@ -175,7 +156,11 @@ body {
     margin-right: 0 !important;
 }
 
-/* Estilo para temperaturas */
+.right-nav {
+    display: flex;
+    flex-direction: row;
+}
+
 #current-temp {
     font-size: 1.5rem !important;
     font-weight: 600 !important;
@@ -183,16 +168,13 @@ body {
     margin-top: 2rem;
 }
 
-/* Estilo para condição do tempo */
 #weather-condition {
     font-size: 1.5rem !important;
     color: rgba(0, 0, 0, 0.7) !important;
-    /* margin-bottom: 1.5rem !important; */
 }
 
-/* Atualizar o footer */
 footer {
-    background: rgba(13, 110, 253, 1) !important;  /* Mesmo azul da navbar */
+    background: rgba(13, 110, 253, 1) !important;
     backdrop-filter: blur(10px) !important;
     -webkit-backdrop-filter: blur(10px) !important;
     margin-top: auto !important;
@@ -200,16 +182,51 @@ footer {
     color: white !important;
 }
 
-/* Atualizar a cor do texto no footer */
 footer p {
-    color: white !important;  /* Texto branco */
+    color: white !important;
     margin: 0 !important;
 }
 
-/* Atualizar o footer do card */
 .card-footer {
-    background: rgba(255, 255, 255, 0) !important;  Mais transparente
+    background: rgba(255, 255, 255, 0) !important;
     backdrop-filter: blur(5px) !important;
     -webkit-backdrop-filter: blur(5px) !important;
     border-radius: 0 0 20px 20px !important;
+}
+
+#error-alert {
+    max-width: 350px !important;
+    width: 400px !important;
+    position: absolute !important;
+    top: 100% !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    z-index: 1000 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    border: none !important;
+    animation: slideDown 0.3s ease-out !important;
+    border-radius: 10px !important;
+    margin-top: 20px !important;
+}
+
+#error-alert i {
+    margin-right: 8px !important;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translate(-50%, -10px);
+        opacity: 0;
+    }
+    to {
+        transform: translate(-50%, 0);
+        opacity: 1;
+    }
+}
+
+.nav-content-wrapper {
+    position: relative !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
 }

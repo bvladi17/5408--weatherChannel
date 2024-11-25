@@ -10,7 +10,7 @@ liveReloadServer.watch(__dirname + '/public');
 app.use(connectLiveReload());
 
 // Carregar variáveis de ambiente
-require('dotenv').config({path: 'dev.env'});
+require('dotenv').config({ path: 'dev.env' });
 
 // Middleware para servir ficheiros estáticos tais como imagens, CSS e JavaScript
 app.use(express.static(path.join(__dirname, 'public')));
@@ -31,8 +31,3 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Servidor a correr em http://localhost:${PORT}`);
 });
-
-
-
-
-

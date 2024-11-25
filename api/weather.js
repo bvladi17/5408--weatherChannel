@@ -15,7 +15,9 @@ router.get('/weather', async (req, res) => {
     } else if (city) {
         API_URL = `https://api.weatherapi.com/v1/forecast.json?key=${process.env.API_KEY}&q=${city}&days=3&lang=${lang}`;
     } else {
-        return res.status(400).json({ error: 'Nenhuma cidade ou coordenadas fornecidas.' });
+        return res
+            .status(400)
+            .json({ error: 'Nenhuma cidade ou coordenadas fornecidas.' });
     }
 
     try {
@@ -27,11 +29,14 @@ router.get('/weather', async (req, res) => {
             forecast: response.data.forecast.forecastday,
         });
     } catch (error) {
-        console.error('Erro ao obter os dados:', error.response?.data || error.message);
-        res.status(500).json({ error: 'Ocorreu um erro inesperado no servidor.' });
+        console.error(
+            'Erro ao obter os dados:',
+            error.response?.data || error.message
+        );
+        res.status(500).json({
+            error: 'Ocorreu um erro inesperado no servidor.',
+        });
     }
 });
-
-
 
 module.exports = router;
